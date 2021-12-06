@@ -27,7 +27,7 @@
           </h5>
           <div class="r">
             <p class="p-info">Users:</p>
-            <span class="s-info">{{details.totalUsers}} out of {{details.userLimit}}</span>
+            <span class="s-info" v-bind:style="{ color: activeColor}" >{{details.totalUsers}} out of {{details.userLimit}}</span>
           </div>
           <div class="r">
             <p class="p-info">Usage:</p>
@@ -47,6 +47,7 @@ export default {
     data() {
     return {
       details: {},
+      activeColor: "",
     };
   },
   mounted() {
@@ -67,7 +68,17 @@ export default {
       const response = await fetch(`http://localhost:5000/api/apps/${app.key}`);
       const data = await response.json();
       this.details = data;
-      console.log(this.details)
+      const percentUser = (this.details.totalUsers / this.details.userLimit) * 100;
+      const percentUsage = (this.details.usage / this.details.usageLimit) * 100;
+
+      if(percentUser < 69){
+        this.activeColor = 'green';
+      }else if(percentUser > 69 && percentUser < 90) {
+        this.activeColor = 'yellow';
+      }else {
+        this.activeColor = 'red';
+      }
+      
     },
   },
 };
