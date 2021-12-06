@@ -31,7 +31,7 @@
           </div>
           <div class="r">
             <p class="p-info">Usage:</p>
-            <span class="s-info">{{details.usage}} out of {{details.usageLimit}}</span>
+            <span class="s-info" v-bind:style="{ color: activeColor}">{{details.usage}} out of {{details.usageLimit}}</span>
           </div>
         </div>
       </template>
@@ -78,7 +78,15 @@ export default {
       }else {
         this.activeColor = 'red';
       }
-      
+
+       if(percentUsage < 69){
+        this.activeColor = 'green';
+      }else if(percentUsage > 69 && percentUsage < 90) {
+        this.activeColor = 'yellow';
+      }else {
+        this.activeColor = 'red';
+      }
+
     },
   },
 };
